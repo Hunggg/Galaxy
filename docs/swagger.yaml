@@ -1,0 +1,390 @@
+definitions:
+  api.ErrorResponse:
+    properties:
+      error:
+        type: string
+      timestamp:
+        type: integer
+    type: object
+  api.ListAccessoriesOutput:
+    properties:
+      count:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/services.AccessoriesInfoApi'
+        type: array
+      timestamp:
+        type: integer
+    type: object
+  api.ListMetronionsInput:
+    properties:
+      account:
+        type: string
+      gender:
+        items:
+          type: string
+        type: array
+      id:
+        type: integer
+      limit:
+        type: integer
+      offset:
+        type: integer
+      sort:
+        type: string
+      stat:
+        additionalProperties:
+          items:
+            type: string
+          type: array
+        type: object
+      status:
+        items:
+          type: string
+        type: array
+    type: object
+  api.ListMetronionsOutput:
+    properties:
+      count:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/services.MetronionInfoApi'
+        type: array
+      timestamp:
+        type: integer
+    type: object
+  api.MetronionActivitiesOutput:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/services.MetronionActivityApi'
+        type: array
+      timestamp:
+        type: integer
+    type: object
+  api.MetronionInfoOutput:
+    properties:
+      data:
+        $ref: '#/definitions/services.MetronionInfoApi'
+      timestamp:
+        type: integer
+    type: object
+  api.MetronionOffersOutput:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/services.MetronionOffersApi'
+        type: array
+      timestamp:
+        type: integer
+    type: object
+  services.AccessoriesInfoApi:
+    properties:
+      createdAtBlock:
+        type: integer
+      createdAtTimestamp:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      rarity_id:
+        type: integer
+      rarity_name:
+        type: string
+      stats:
+        $ref: '#/definitions/services.Stats'
+      type_id:
+        type: integer
+      type_name:
+        type: string
+    type: object
+  services.MetronionActivityApi:
+    properties:
+      activityType:
+        type: string
+      blockNumber:
+        type: integer
+      from:
+        type: string
+      id:
+        type: integer
+      price:
+        type: number
+      timestamp:
+        type: integer
+      to:
+        type: string
+      txHash:
+        type: string
+    type: object
+  services.MetronionInfoApi:
+    properties:
+      baseStats:
+        $ref: '#/definitions/services.Stats'
+      createdAtBlock:
+        type: integer
+      createdAtTimestamp:
+        type: integer
+      currentPrice:
+        type: number
+      gender:
+        type: string
+      id:
+        type: integer
+      image:
+        type: string
+      lastPrice:
+        type: number
+      listedBy:
+        type: string
+      name:
+        type: string
+      owner:
+        type: string
+      specialStar:
+        type: integer
+      specialStats:
+        $ref: '#/definitions/services.Stats'
+      star:
+        type: integer
+      topBid:
+        type: number
+      type:
+        type: string
+      updatedAtBlock:
+        type: integer
+      updatedAtTimestamp:
+        type: integer
+      versionId:
+        type: integer
+      wearables:
+        items:
+          $ref: '#/definitions/services.MetronionWearableApi'
+        type: array
+    type: object
+  services.MetronionOffersApi:
+    properties:
+      blockNumber:
+        type: integer
+      from:
+        type: string
+      id:
+        type: integer
+      price:
+        type: number
+      timestamp:
+        type: integer
+      txHash:
+        type: string
+    type: object
+  services.MetronionWearableApi:
+    properties:
+      changeable:
+        type: boolean
+      id:
+        type: string
+      image:
+        type: string
+      isOrigin:
+        type: boolean
+      isRequired:
+        type: boolean
+      name:
+        type: string
+      rarity:
+        type: string
+      type:
+        type: string
+    type: object
+  services.Stats:
+    properties:
+      charisma:
+        type: integer
+      creativity:
+        type: integer
+      fitness:
+        type: integer
+      intellect:
+        type: integer
+      resolve:
+        type: integer
+    type: object
+info:
+  contact:
+    email: captain@metrogalaxy.io
+    name: API Support
+  description: MetroGalaxy API specifications
+  license:
+    name: Business Source License 1.1
+    url: https://spdx.org/licenses/BUSL-1.1.html
+  title: MetroGalaxy API
+  version: "1.0"
+paths:
+  /accessories/list:
+    post:
+      consumes:
+      - application/json
+      description: Get list accessories with filter
+      operationId: accessories-list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ListAccessoriesOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      summary: Get list accessories
+      tags:
+      - accessories
+  /metronion/activities:
+    get:
+      consumes:
+      - application/json
+      description: Get history activities of Metronion
+      operationId: metronion-activities
+      parameters:
+      - description: Metronion ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.MetronionActivitiesOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      summary: Get history activities of Metronion
+      tags:
+      - metronion
+  /metronion/list:
+    post:
+      consumes:
+      - application/json
+      description: Get list Metronions with filter
+      operationId: metronion-list
+      parameters:
+      - description: Request params
+        in: body
+        name: request
+        schema:
+          $ref: '#/definitions/api.ListMetronionsInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ListMetronionsOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      summary: Get list Metronions
+      tags:
+      - metronion
+  /metronion/metronionInfo:
+    get:
+      consumes:
+      - application/json
+      description: Get info of specific Metronion
+      operationId: metronion-info
+      parameters:
+      - description: Metronion ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.MetronionInfoOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      summary: Get info of specific Metronion
+      tags:
+      - metronion
+  /metronion/offers:
+    get:
+      consumes:
+      - application/json
+      description: Get current offers for specific Metronion
+      operationId: metronion-offers
+      parameters:
+      - description: Metronion ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.MetronionOffersOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      summary: Get current offers for specific Metronion
+      tags:
+      - metronion
+swagger: "2.0"

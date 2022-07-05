@@ -1,0 +1,23 @@
+{
+  "chain_id": 31337,
+  "chain_name": "hardhat",
+  "node_url": "http://localhost:8545",
+  "ws_node_url": "ws://localhost:8545",
+  "metronion_nft_contract": {
+    "address": "0x7c2C195CD6D34B8F845992d380aADB2730bB9C6F",
+    "created_at_block": 0
+  },
+  "metronion_sale_contract": {
+    "address": "0x8858eeB3DfffA017D4BCE9801D340D36Cf895CCf",
+    "created_at_block": 0
+  },
+  "postgres": {
+    "endpoint": "localhost",
+    "port": "5433",
+    "database": "metrogalaxy_api",
+    "enable_log": false
+  },
+  "http": {
+    "enable_cors": false
+  }
+}

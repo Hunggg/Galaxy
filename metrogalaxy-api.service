@@ -1,0 +1,18 @@
+[Unit]
+Description=metrogalaxy-api
+After=docker.service
+Requires=docker.service
+
+[Service]
+SyslogIdentifier=metrogalaxy-api
+Restart=on-failure
+ExecStart=/usr/bin/docker run --name metrogalaxy-api \
+                              --env-file /home/ec2-user/metrogalaxy-api.env \
+                              --publish 8080:8080 \
+                              quangkeudocker/metrogalaxy-api:latest serve
+
+ExecStop=/usr/bin/docker stop -t 10 metrogalaxy-api
+ExecStopPost=/usr/bin/docker rm -f metrogalaxy-api
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,27 @@
+version: 0.2
+phases:
+    install:
+        runtime-versions:
+            golang: 1.16
+        commands:
+            - go get -u golang.org/x/lint/golint
+
+    pre_build:
+        commands:
+            - golint -set_exit_status
+            - go test -v ./... -tags skipTest
+
+    build:
+        commands:
+            - go build -o metrogalaxy-api-binary
+
+artifacts:
+    files:
+        - appspec.yml
+        - metrogalaxy-api-binary
+        - "scripts/*"
+        - "env/*"
+        - metrogalaxy-api.service
+        - Dockerfile
+    discard-paths: yes
+    name: dev-metrogalaxy-api-binary-v0.0.1

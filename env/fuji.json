@@ -1,0 +1,33 @@
+{
+  "chain_id": 43113,
+  "chain_name": "fuji",
+  "node_url": "https://api.avax-test.network/ext/bc/C/rpc",
+  "ws_node_url": "wss://api.avax-test.network/ext/bc/C/ws",
+  "metronion_accessories_contract": {
+    "address": "0x83233344BAe44c9420E11583Af4c5E48a3D392df",
+    "created_at_block": 10218338,
+    "base_uri": "https://api.metrogalaxy.io/accessories/metadata/"
+  }, 
+  "metronion_nft_contract": {
+    "address": "0xCcb6E4532ecC26646E2f681a76C3A89646133F2C",
+    "created_at_block": 10218342
+  },
+  "metronion_nft": {
+    "base_uri": "https://api.metrogalaxy.io/v1/metronion/metadata/",
+    "image_uri": "https://metrogalaxy-storage.s3.ap-southeast-1.amazonaws.com/"
+  },
+  "metronion_sale_contract": {
+    "address": "0x42c88E24c036aE6A20eB25094AEb210CC3893749",
+    "created_at_block": 10218346
+  },
+  "metrogalaxy_marketplace_contract": {
+    "address": "0xA71f4dD88fC053b6F9c413a275be7EF9E64C5da1",
+    "created_at_block": 10071612
+  },
+  "postgres": {
+    "database": "metrogalaxy_api"
+  },
+  "http": {
+    "enable_cors": true
+  }
+}

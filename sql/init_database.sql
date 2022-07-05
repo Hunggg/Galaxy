@@ -1,0 +1,2 @@
+CREATE DATABASE IF NOT EXISTS metrogalaxy_api;
+CREATE DATABASE IF NOT EXISTS metrogalaxy_api_test;

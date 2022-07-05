@@ -1,0 +1,85 @@
+version: "3"
+services:
+  metrogalaxy-api:
+    image: 373560387207.dkr.ecr.ap-southeast-1.amazonaws.com/dev-metrogalaxy-api
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+    expose:
+      - 8080
+      - 9000
+    # depends_on:
+    #   - postgres
+    #   - redis
+    environment:
+      - NETWORK=fuji
+      - METROGALAXY_API_ENABLE_LOG=${METROGALAXY_API_ENABLE_LOG}
+      - METROGALAXY_API_LOG_LEVEL=${METROGALAXY_API_LOG_LEVEL}
+      - METROGALAXY_API_COCKROACH_DB_URI=${METROGALAXY_API_COCKROACH_DB_URI}
+      - METROGALAXY_API_COCKROACH_DB_LOG=${METROGALAXY_API_COCKROACH_DB_LOG}
+      - METROGALAXY_API_GRPC_PORT=${METROGALAXY_API_GRPC_PORT}
+      - METROGALAXY_API_HTTP_PORT=${METROGALAXY_API_HTTP_PORT}
+    networks:
+      - metrogalaxy-api-network
+
+  # grpcwebproxy:
+  #   image: 373560387207.dkr.ecr.ap-southeast-1.amazonaws.com/grpcwebproxy
+  #   build:
+  #     context: ./docker/grpcwebproxy
+  #     dockerfile: Dockerfile
+  #   expose:
+  #     - 8081
+  #     - 8443
+
+  # envoyproxy:
+  #   image: 373560387207.dkr.ecr.ap-southeast-1.amazonaws.com/envoyproxy
+  #   build:
+  #     context: ./docker/envoyproxy
+  #     dockerfile: Dockerfile
+
+  # postgres:
+  #   image: postgres:12
+  #   container_name: metrogalaxy_api_postgres
+  #   ports:
+  #     - '5432:5432'
+  #   environment:
+  #     - POSTGRES_DB=${METROGALAXY_API_POSTGRES_DATABASE}
+  #     - POSTGRES_USER=${METROGALAXY_API_POSTGRES_USER}
+  #     - POSTGRES_PASSWORD=${METROGALAXY_API_POSTGRES_PASSWORD}
+  #   volumes:
+  #     - 'metrogalaxy_api_postgres_data:/var/lib/postgres/data'
+  #   networks:
+  #     - metrogalaxy-api-network
+
+  # redis:
+  #   image: redis:7
+  #   container_name: metrogalaxy_api_redis
+  #   ports:
+  #     - '6379:6379'
+  #   command: redis-server --save 20 1 --loglevel warning --requirepass ${METROGALAXY_API_REDIS_PASSWORD}
+  #   volumes:
+  #     - 'metrogalaxy_api_redis_data:/data'
+  #   networks:
+  #     - metrogalaxy-api-network
+
+  nginx:
+    image: 373560387207.dkr.ecr.ap-southeast-1.amazonaws.com/dev-metrogalaxy-api-nginx
+    container_name: nginx
+    build:
+      context: ./docker/nginx/
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+      - 9000:9000
+    networks:
+      - metrogalaxy-api-network
+
+volumes:
+  metrogalaxy_api_postgres_data:
+    driver: local
+  # metrogalaxy_api_redis_data:
+  #   driver: local
+
+networks:
+  metrogalaxy-api-network:

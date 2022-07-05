@@ -1,0 +1,259 @@
+syntax = "proto3";
+
+option go_package = "github.com/metrogalaxy/metrogalaxy-api/grpc/wearables/v1;wearables";
+
+package proto.wearables.v1;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/struct.proto";
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+/**
+ * Data models
+ */
+ message WearableStats {
+    uint64 creativity = 1;
+    uint64 charisma = 2;
+    uint64 resolve = 3;
+    uint64 fitness = 4;
+    uint64 intellect = 5;
+}
+
+message Wearables {
+    uint64 id = 1;
+    string wearable_id = 2;
+    string type = 3;
+    string name = 4;
+    string gender = 5;
+    string rarity = 6;
+    bool changeable = 7;
+    bool is_origin = 8;
+    bool is_required = 9;
+    string image = 10;
+    WearableStats stats = 11;
+    uint64 on_chain_id = 12;
+}
+
+message WearableOnchainData {
+    uint64 id = 1;
+    string name = 2;
+    uint64 max_supply = 3;
+    uint64 current_supply = 4;
+    string type = 5;
+    string rarity = 6;
+    uint64 created_at_timestamp = 7;
+    uint64 updated_at_timestamp = 8;
+    uint64 created_at_block = 9;
+    uint64 updated_at_block = 10;
+}
+
+message WearableActivity {
+    uint64 id = 1;
+    uint64 on_chain_data = 2;
+    string activity_type = 3;
+    uint64 time_stamp = 4;
+    uint64 block_number = 5;
+    string txhash = 6;
+    uint64 amount = 7;
+    uint64 price = 8;
+    string from = 9;
+    string to = 10;
+}
+
+message WearableListingOrOffer {
+    uint64 id = 1;
+    uint64 on_chain_id = 2;
+    string from_account = 3;
+    float price = 4;
+    uint64 amount = 5;
+    uint64 time_stamp = 6;
+    uint64 block_number = 7;
+    string txhash = 8;
+}
+
+message WearablesInformation {
+    string wearable_id = 1;
+    string type = 2;
+    string name = 3;
+    string gender = 4;
+    string rarity = 5;
+    bool changeable = 6;
+    bool is_origin = 7;
+    bool is_required  = 8;
+    string images = 9;
+    WearableStats stats = 10;
+    uint64 max_supply = 11;
+    uint64 current_supply = 12;
+	uint64 created_at_timestamp = 13;
+    uint64 updated_at_timestamp = 14;
+    uint64 created_at_block = 15;
+    uint64 update_at_block = 16;
+    uint64 on_chain_id = 17;
+}
+
+/**
+ * Request/Response models
+ */
+
+message GetWearablesRequest {
+    google.protobuf.UInt64Value id = 1 [(validate.rules).message.required = true];
+}
+
+message GetWearablesResponse {
+    Wearables wearables = 1;
+}
+
+message GetListWearablesActivityRequest {
+    int32 offset = 1 [(validate.rules).int32.gte = 0];
+    int32 limit = 2 [(validate.rules).int32 = {gte:0, lte: 50}];
+}
+
+message GetListWearablesActivityResponse {
+    repeated WearableActivity wearable_activity = 1;
+    uint64 count = 2;
+}
+
+message GetWearablesListingRequest {
+    google.protobuf.UInt64Value id = 1 [(validate.rules).message.required = true];
+}
+
+message GetWearablesListingResponse {
+    WearableListingOrOffer wearable_listing = 1;
+}
+
+message GetWearablesOfferRequest {
+    google.protobuf.UInt64Value id = 1 [(validate.rules).message.required = true];
+}
+
+message GetWearablesOfferResponse {
+    WearableListingOrOffer wearable_offer = 1;
+}
+
+message GetListWearablesListingRequest {
+    int32 offset = 1 [(validate.rules).int32.gte = 0];
+    int32 limit = 2[(validate.rules).int32 = {gte:0, lte: 50}];
+}
+
+message GetListWearablesListingResponse {
+    repeated WearableListingOrOffer wearables_listing = 1;
+    uint64 count = 2;
+}
+
+message GetListWearablesOfferRequest {
+    int32 offset = 1 [(validate.rules).int32.gte = 0];
+    int32 limit = 2 [(validate.rules).int32 = {gte:0, lte: 50}];
+}
+
+message GetListWearablesOfferResponse {
+    repeated WearableListingOrOffer wearables_offer = 1;
+    uint64 count = 2;
+}
+
+message GetListWearablesInformationRequest {
+    int32 offset = 1 [(validate.rules).int32.gte = 0];
+    int32 limit = 2 [(validate.rules).int32 = {gte:0, lte: 50}];
+    string sort = 3 [(validate.rules).string = {in: ["", "lowest_current_supply", "highest_current_supply", "lowest_max_supply", "highest_max_supply"]}];
+    string rarity = 4 [(validate.rules).string = {in: ["common", "uncommon", "rare", "epic", "legendary", "mythical"]}];
+    repeated string gender = 5 [(validate.rules).repeated.items.string = {in: ["male", "female"]}];
+    string type = 6 [(validate.rules).string = {in: ["all", "hair", "skin", "face", "face_accessories", "top", "bottom", "shoes", "coat", "left_hand_equipment", "right_hand_equipment", "vehicles", "wing", "tail", "pet", "set"]}];
+}
+
+
+message GetWearablesInformationRequest {
+    google.protobuf.UInt64Value id = 1 [(validate.rules).message.required = true];
+}
+
+message GetWearablesInformationResponse {
+    WearablesInformation wearable_information = 1;
+}
+
+message GetListWearablesInformationResponse {
+    repeated WearablesInformation wearable_information = 1;
+    uint64 count = 2;
+}
+
+message GetListWearablesRequest {
+    google.protobuf.StringValue account = 1 [(validate.rules).string.pattern = "^0x[a-fA-F0-9]{40}$"];
+    string sort = 2 [(validate.rules).string = {in: ["", "lowest_id", "highest_id", "lowest_price", "highest_price"]}];
+    int32 offset = 3 [(validate.rules).int32.gte = 0];
+    int32 limit = 4 [(validate.rules).int32 = {gte:0, lte: 50}];
+    google.protobuf.UInt64Value id = 5;
+    repeated string gender = 6 [(validate.rules).repeated.items.string = {in: ["male", "female"]}];
+    repeated string status = 7 [(validate.rules).repeated.items.string = {in: ["for_sale", "has_offers"]}];
+    string rarity = 8 [(validate.rules).string = {in: ["common", "uncommon", "rare", "epic", "legendary", "mythical"]}];
+    string type = 9 [(validate.rules).string = {in: ["all", "hair", "skin", "face", "face_accessories", "top", "bottom", "shoes", "coat", "left_hand_equipment", "right_hand_equipment", "vehicles", "wing", "tail", "pet", "set"]}];
+    map<string, google.protobuf.ListValue> stat = 10 [(validate.rules).map = {min_pairs: 0, max_pairs: 5}];
+    google.protobuf.UInt64Value on_chain_id = 11;
+}
+
+message GetListWearablesResponse {
+    repeated Wearables wearables = 1;
+    uint64 count = 2;
+}
+
+service WearablesService {
+    rpc GetWearables(GetWearablesRequest) returns (GetWearablesResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/wearables/{id}",
+            body: "*"
+        };
+    }
+    rpc GetListWearables(GetListWearablesRequest) returns (GetListWearablesResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/wearables/list",
+            body: "*"
+        };
+    }
+
+    rpc GetListWearablesActivity(GetListWearablesActivityRequest) returns (GetListWearablesActivityResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/wearables/activity/list",
+            body: "*"
+        };
+    }
+
+    rpc GetWearablesListing(GetWearablesListingRequest) returns (GetWearablesListingResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/wearables/listing/{id}",
+            body: "*"
+        };
+    }
+
+    rpc GetWearablesOffer(GetWearablesOfferRequest) returns (GetWearablesOfferResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/wearables/offer/{id}",
+            body: "*"
+        };
+    }
+
+    rpc GetListWearablesListing(GetListWearablesListingRequest) returns (GetListWearablesListingResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/wearables/listing/list",
+            body: "*"
+        };
+    }
+
+    rpc GetListWearablesOffer(GetListWearablesOfferRequest) returns (GetListWearablesOfferResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/wearables/offer/list",
+            body: "*"
+        };
+    }
+
+    rpc GetListWearablesInformation(GetListWearablesInformationRequest) returns (GetListWearablesInformationResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/wearables/information/list",
+            body: "*"
+        };
+    }
+
+    rpc GetWearablesInformation(GetWearablesInformationRequest) returns (GetWearablesInformationResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/wearables/information/{id}",
+            body: "*"
+        };
+    }
+
+
+}

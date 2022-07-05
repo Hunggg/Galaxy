@@ -1,0 +1,541 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "proto/metronion/v1/metronion.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "MetronionService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/metronion/activities": {
+      "get": {
+        "operationId": "MetronionService_GetMetronionActivities",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetMetronionActivitiesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MetronionService"
+        ]
+      }
+    },
+    "/api/v1/metronion/list": {
+      "post": {
+        "operationId": "MetronionService_GetListMetadata",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetListMetadataResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetListMetadataRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MetronionService"
+        ]
+      }
+    },
+    "/api/v1/metronion/listing": {
+      "get": {
+        "operationId": "MetronionService_GetMetronionListing",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetMetronionListingResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "MetronionService"
+        ]
+      }
+    },
+    "/api/v1/metronion/offers": {
+      "get": {
+        "operationId": "MetronionService_GetMetronionOffers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetMetronionOffersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MetronionService"
+        ]
+      }
+    },
+    "/api/v1/metronion/{id}": {
+      "get": {
+        "operationId": "MetronionService_GetMetadata",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetMetadataResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "MetronionService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "protobufNullValue": {
+      "type": "string",
+      "enum": [
+        "NULL_VALUE"
+      ],
+      "default": "NULL_VALUE",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1GetListMetadataRequest": {
+      "type": "object",
+      "properties": {
+        "account": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "string"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "gender": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stat": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "v1GetListMetadataResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1GetMetadataResponse"
+          }
+        },
+        "count": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "v1GetMetadataResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "versionId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "createdAtTimestamp": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "updatedAtTimestamp": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "createdAtBlock": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "updatedAtBlock": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "lastPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "currentPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "topBid": {
+          "type": "number",
+          "format": "double"
+        },
+        "listedBy": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "star": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "specialStar": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "baseStats": {
+          "$ref": "#/definitions/v1MetronionStats"
+        },
+        "specialStats": {
+          "$ref": "#/definitions/v1MetronionStats"
+        },
+        "wearables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Wearables"
+          }
+        }
+      }
+    },
+    "v1GetMetronionActivitiesResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1MetronionActivity"
+          }
+        }
+      }
+    },
+    "v1GetMetronionListingResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/v1MetronionListing"
+        }
+      }
+    },
+    "v1GetMetronionOffersResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1MetronionOffers"
+          }
+        }
+      }
+    },
+    "v1MetronionActivity": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "type": {
+          "type": "string"
+        },
+        "fromAccount": {
+          "type": "string"
+        },
+        "toAccount": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "blockNumber": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "txHash": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MetronionListing": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "fromAccount": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "blockNumber": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "txHash": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MetronionOffers": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "fromAccount": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "blockNumber": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "txHash": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MetronionStats": {
+      "type": "object",
+      "properties": {
+        "creativity": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "charisma": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "resolve": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "fitness": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "intellect": {
+          "type": "string",
+          "format": "uint64"
+        }
+      },
+      "title": "Data models"
+    },
+    "v1Wearables": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "rarity": {
+          "type": "string"
+        },
+        "changeable": {
+          "type": "boolean"
+        },
+        "isOrigin": {
+          "type": "boolean"
+        },
+        "isRequired": {
+          "type": "boolean"
+        },
+        "image": {
+          "type": "string"
+        },
+        "stats": {
+          "$ref": "#/definitions/v1MetronionStats"
+        }
+      }
+    }
+  }
+}

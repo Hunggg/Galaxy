@@ -1,0 +1,25 @@
+version: 0.0
+os: linux
+files:
+    - source: /
+      destination: /home/ec2-user/metrogalaxy-api
+    - source: /metrogalaxy-api.service
+      destination: /etc/systemd/system/
+file_exists_behavior: OVERWRITE
+hooks:
+    BeforeInstall:
+        - location: before_install.sh
+          timeout: 300
+          runas: ec2-user
+    AfterInstall:
+        - location: after_install.sh
+          timeout: 300
+          runas: root
+    ApplicationStart:
+        - location: application_start.sh
+          timeout: 300
+          runas: root
+    ApplicationStop:
+        - location: application_stop.sh
+          timeout: 300
+          runas: root

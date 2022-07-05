@@ -1,0 +1,257 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "proto/wearables/v1/wearables.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "WearablesService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/wearables/list": {
+      "post": {
+        "operationId": "WearablesService_GetListWearables",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetListWearablesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetListWearablesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "WearablesService"
+        ]
+      }
+    },
+    "/api/v1/wearables/{id}": {
+      "post": {
+        "operationId": "WearablesService_GetWearables",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetWearablesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "tags": [
+          "WearablesService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "protobufNullValue": {
+      "type": "string",
+      "enum": [
+        "NULL_VALUE"
+      ],
+      "default": "NULL_VALUE",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1GetListWearablesRequest": {
+      "type": "object",
+      "properties": {
+        "account": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "string"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "gender": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rarity": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "stat": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "v1GetListWearablesResponse": {
+      "type": "object",
+      "properties": {
+        "wearables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Wearables"
+          }
+        },
+        "count": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "v1GetWearablesResponse": {
+      "type": "object"
+    },
+    "v1MetronionStats": {
+      "type": "object",
+      "properties": {
+        "creativity": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "charisma": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "resolve": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "fitness": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "intellect": {
+          "type": "string",
+          "format": "uint64"
+        }
+      },
+      "title": "Data models"
+    },
+    "v1Wearables": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "rarity": {
+          "type": "string"
+        },
+        "changeable": {
+          "type": "boolean"
+        },
+        "isOrigin": {
+          "type": "boolean"
+        },
+        "isRequired": {
+          "type": "boolean"
+        },
+        "image": {
+          "type": "string"
+        },
+        "stats": {
+          "$ref": "#/definitions/v1MetronionStats"
+        }
+      }
+    }
+  }
+}
